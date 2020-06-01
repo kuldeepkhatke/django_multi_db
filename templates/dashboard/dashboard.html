@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table, th, td {
+              border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        Hello {{request.user}}! 
+        Welcome to dashboard
+        <a href="/logout" style="background-color: gray;color:white;padding: 5px;">Logout</a>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Product</button>
+        </form>
+        <hr>
+        <h1>Products List created by you</h1>
+        <table>
+            <tr>
+                <th>Database</th>
+                <th>Product</th>
+            </tr>
+            <tbody>
+                {% for db in data %}
+                    {% for product in db.products %}
+                    <tr>
+                        <td>{{db.db}}</td>
+                        <td>{{product.name}}</td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </body>
+</html>
+
+

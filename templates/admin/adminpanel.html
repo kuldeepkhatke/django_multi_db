@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table, th, td {
+              border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        Hello Admin, {{request.user}}! 
+        Welcome to dashboard
+        <a href="/logout" style="background-color: gray;color:white;padding: 5px;">Logout</a>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create User</button>
+        </form>
+        <hr>
+        <h1>Users List created by you</h1>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Products</th>
+                <th>Action</th>
+            </tr>
+            <tbody>
+                {% for obj in data %}
+                    <tr>
+                        <td>{{obj.user.id}}</td>
+                        <td>{{obj.user.username}}</td>
+                        <td>
+                            <ul>
+                                {% for db in obj.database %}
+                                    {% for product in db.products %}
+                                    <li>{{db.name}} - {{product.name}}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td><a href="/delete/user/{{obj.user.id}}/">Delete</a></td>
+                    </tr>
+                    
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
+
+
